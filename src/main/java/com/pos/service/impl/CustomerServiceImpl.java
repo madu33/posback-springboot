@@ -23,16 +23,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public ResponseEntity<Boolean> addCustomer(CustomerDto customerDto) {
-
-        Customer customer = modelMapper.map(customerDto, Customer.class);
         try {
+            Customer customer = modelMapper.map(customerDto, Customer.class);
             Customer cus = customerRepo.save(customer);
             if (cus.getCustomer_id() != null)
                 return new ResponseEntity<Boolean>(true, HttpStatus.OK);
         }catch (Exception e){
-            throw new RuntimeException("Can't be Added Customer");
+            throw new RuntimeException("Could not add customer");
         }
-        throw new RuntimeException("Can't be Added Customer");
+        throw new RuntimeException("Could not add customer");
     }
 
     @Override

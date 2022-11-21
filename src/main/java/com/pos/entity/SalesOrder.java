@@ -1,6 +1,11 @@
 package com.pos.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class SalesOrder {
+    @Id
     private Integer transaction_id;
     private Integer invoice;
     private String product;
