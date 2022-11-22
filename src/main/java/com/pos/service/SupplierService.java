@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface SupplierService {
 
-    ResponseEntity<SupplierDto> addSupplier(SupplierDto supplierDto);
+    ResponseEntity<Boolean> addSupplier(SupplierDto supplierDto);
 
-    ResponseEntity<SupplierDto> deleteSupplier(Integer supplierId);
+    ResponseEntity<Boolean> deleteSupplier(Integer supplierId);
 
 
-    ResponseEntity<SupplierDto> updateSupplier(SupplierDto supplierDto);
+    ResponseEntity<Boolean> updateSupplier(SupplierDto supplierDto);
 
     ResponseEntity<List<SupplierDto>> getAllSupplier();
 

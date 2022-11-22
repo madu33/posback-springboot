@@ -19,17 +19,17 @@ public class SupplierController {
     private SupplierService supplierService;
 
     @PostMapping("/addSupplier")
-    public ResponseEntity<SupplierDto>addSupplier(@RequestBody SupplierDto supplierDto){
+    public ResponseEntity<Boolean>addSupplier(@RequestBody SupplierDto supplierDto){
         return supplierService.addSupplier(supplierDto);
     }
 
     @DeleteMapping("/deleteSupplier")
-    public ResponseEntity<SupplierDto>deleteSupplier(@PathVariable Integer supplierId){
+    public ResponseEntity<Boolean>deleteSupplier(@PathVariable Integer supplierId){
         return supplierService.deleteSupplier(supplierId);
     }
 
     @PutMapping("/updateSupplier")
-    public ResponseEntity<SupplierDto>updateSupplier(@RequestBody SupplierDto supplierDto){
+    public ResponseEntity<Boolean>updateSupplier(@RequestBody SupplierDto supplierDto){
         return supplierService.updateSupplier(supplierDto);
     }
 
