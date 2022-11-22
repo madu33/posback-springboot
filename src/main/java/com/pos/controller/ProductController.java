@@ -18,17 +18,17 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/addProduct")
-    public ResponseEntity<ProductDto>addProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<Boolean>addProduct(@RequestBody ProductDto productDto){
         return productService.addProduct(productDto);
     }
 
     @DeleteMapping("/deleteProduct")
-    public ResponseEntity<ProductDto>deleteProduct(@PathVariable Integer productId){
+    public ResponseEntity<Boolean>deleteProduct(@PathVariable Integer productId){
         return productService.deleteProduct(productId);
     }
 
     @PutMapping("/updateProduct")
-    public ResponseEntity<ProductDto>updateProduct(@RequestBody ProductDto productDto){
+    public ResponseEntity<Boolean>updateProduct(@RequestBody ProductDto productDto){
         return productService.updateProduct(productDto);
     }
 

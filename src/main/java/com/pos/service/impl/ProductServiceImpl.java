@@ -1,7 +1,9 @@
 package com.pos.service.impl;
 
+import com.pos.dto.CustomerDto;
 import com.pos.dto.ProductDto;
 import com.pos.entity.Product;
+import com.pos.exception.NotFoundException;
 import com.pos.repo.ProductRepo;
 import com.pos.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,35 +25,78 @@ public class ProductServiceImpl implements ProductService {
     private ModelMapper modelMapper;
 
     @Override
-    public ResponseEntity<ProductDto> addProduct(ProductDto productDto) {
-        Product product = modelMapper.map(productDto, Product.class);
-        productRepo.save(product);
-        return null;
+    public ResponseEntity<Boolean> addProduct(ProductDto productDto) {
+        if(productDto.getProduct_name().isEmpty())
+            throw new NullPointerException("Product name should not empty!");
+        try{
+            Product product = modelMapper.map(productDto, Product.class);
+            Product pro = productRepo.save(product);
+            if(pro.getProduct_id() !=null){
+                return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Couldn't be Save, Please try again");
+        }
+        throw new RuntimeException("Couldn't be Save, Please try again");
     }
 
     @Override
-    public ResponseEntity<ProductDto> deleteProduct(Integer productId) {
-        productRepo.deleteById(productId);
-        return null;
+    public ResponseEntity<Boolean> deleteProduct(Integer productId) {
+        if(productId ==null)
+            throw new NullPointerException("Product Id Shouldn't Empty");
+        try {
+            productRepo.deleteById(productId);
+            return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+        }catch (Exception e){
+            throw new RuntimeException("Couldn't be Delete,Please Try Again");
+        }
+
     }
 
     @Override
-    public ResponseEntity<ProductDto> updateProduct(ProductDto productDto) {
-        Product product=modelMapper.map(productDto,Product.class);
-        productRepo.save(product);
-        return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
+    public ResponseEntity<Boolean> updateProduct(ProductDto productDto) {
+        if(productDto.getProduct_id() ==null)
+            throw new NullPointerException("Product Id Empty, Please Provide Product ID");
+        try {
+            Product product = modelMapper.map(productDto, Product.class);
+            Product pro = productRepo.save(product);
+            if(pro.getProduct_id() !=null)
+                return new ResponseEntity<Boolean>(true,HttpStatus.OK);
+        }catch (Exception e){
+            throw new RuntimeException("Couldn't Be Update Product, Please Try Again");
+        }
+        throw new RuntimeException("Couldn't Be Update Product, Please Try Again");
     }
 
     @Override
     public ResponseEntity<ProductDto> searchProduct(String productName) {
-        Product product = productRepo.searchProduct(productName);
-        ProductDto productDto = modelMapper.map(product, ProductDto.class);
-        return new ResponseEntity<ProductDto>(productDto,HttpStatus.OK);
+        if(productName.trim().isEmpty())
+            throw new NullPointerException("Product Name Shouldn't be Empty");
+        try {
+            Product product = productRepo.searchProduct(productName);
+            if(product.getProduct_id()==null)
+                throw new NotFoundException("Product Not Found");
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            return new ResponseEntity<ProductDto>(productDto,HttpStatus.OK);
+        }catch (NotFoundException e){
+            throw new NotFoundException("Product Not Found");
+        }catch (Exception e){
+            throw new RuntimeException("Product Not Found");
+        }
     }
 
     @Override
     public ResponseEntity<List<ProductDto>> getAllProduct() {
-        List<Product> all = productRepo.findAll();
-        return null;
+        try {
+            List<Product> all = productRepo.findAll();
+            if(all.isEmpty())
+                throw new NotFoundException("Product Not Found");
+            List<ProductDto> productDtoList = Arrays.asList(modelMapper.map(all, ProductDto[].class));
+            return new ResponseEntity<List<ProductDto>>(productDtoList,HttpStatus.OK);
+        }catch (NotFoundException e){
+            throw new NotFoundException("Product Not Found");
+        }catch (Exception e){
+            throw new RuntimeException("Product Not Found");
+        }
     }
 }

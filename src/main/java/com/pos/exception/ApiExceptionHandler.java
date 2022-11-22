@@ -28,4 +28,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<Object> nullPointException(NullPointerException e){
+        HttpStatus httpStatus=HttpStatus.NOT_FOUND;
+        CustomException customException= new CustomException(e.getMessage(), e, httpStatus, ZonedDateTime.now(ZoneId.of("Z")));
+        return new ResponseEntity<Object>(customException,httpStatus);
+
+    }
+
 }

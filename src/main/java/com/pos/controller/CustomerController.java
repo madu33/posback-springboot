@@ -22,7 +22,7 @@ public class CustomerController {
         return customerService.addCustomer(customerDto);
     }
 
-    @DeleteMapping("/deleteCustomer")
+    @DeleteMapping("/deleteCustomer/{customerId}")
     public ResponseEntity<Boolean>deleteCustomer(@PathVariable Integer customerId){
         return customerService.deleteCustomer(customerId);
     }

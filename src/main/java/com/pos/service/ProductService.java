@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface ProductService {
-    ResponseEntity<ProductDto> addProduct(ProductDto productDto);
+    ResponseEntity<Boolean> addProduct(ProductDto productDto);
 
-    ResponseEntity<ProductDto> deleteProduct(Integer productId);
+    ResponseEntity<Boolean> deleteProduct(Integer productId);
 
-    ResponseEntity<ProductDto> updateProduct(ProductDto productDto);
+    ResponseEntity<Boolean> updateProduct(ProductDto productDto);
 
     ResponseEntity<ProductDto> searchProduct(String productName);
 

@@ -1,5 +1,12 @@
 package com.pos.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ProductDto {
     private Integer product_id;
     private Integer product_code;
